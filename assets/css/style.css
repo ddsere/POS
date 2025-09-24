@@ -1,0 +1,14 @@
+.page {
+  display: none;
+  padding: 2rem;
+  min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: azure;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
