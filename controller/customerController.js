@@ -18,38 +18,36 @@ const loadTable = () => {
   $("#customer-table-body").empty();
   customerArray.forEach((customer, index) => {
     const dataElement = `<tr>
-    <td>${customer.id}</td>
-    <td>${customer.name}</td>
-    <td>${customer.address}</td>
-    <td>${customer.salary}</td>
-    <td>
-    <button class="btn btn-warning btn-edit" data-index="${index}">Edit</button>
-    <button class="btn btn-danger btn-delete" data-index="${index}">Delete</button>
-    </td>
+      <td>${customer.id}</td>
+      <td>${customer.name}</td>
+      <td>${customer.address}</td>
+      <td>${customer.salary}</td>
+      <td>
+        <button class="btn btn-warning btn-edit" data-index="${index}">Edit</button>
+        <button class="btn btn-danger btn-delete" data-index="${index}">Delete</button>
+      </td>
     </tr>`;
     $("#customer-table-body").append(dataElement);
   });
 };
 
-//Edit function
-$(document).ready(() => {
-  $(".btn-edit").on("click", function (e) {
-    const index = $(this).data("index");
-    const customer = customerArray[index];
+// Edit function
+$(document).on("click", ".btn-edit", function (e) {
+  const index = $(this).data("index");
+  const customer = customerArray[index];
 
-    $("#customer-modal-title").text("Edit customer");
-    $("#customer-id").val(customer.id);
-    $("#customer-name").val(customer.name);
-    $("#customer-address").val(customer.address);
-    $("#customer-salary").val(customer.salary);
-    $("#edit-index").val(index);
-    $("#btn-customer-save").text("Update");
+  $("#customer-modal-title").text("Edit customer");
+  $("#customer-id").val(customer.id);
+  $("#customer-name").val(customer.name);
+  $("#customer-address").val(customer.address);
+  $("#customer-salary").val(customer.salary);
+  $("#edit-index").val(index);
+  $("#btn-customer-save").text("Update");
 
-    const modal = new bootstrap.Modal(
-      document.getElementById("customer-form-modal")
-    );
-    modal.show();
-  });
+  const modal = new bootstrap.Modal(
+    document.getElementById("customer-form-modal")
+  );
+  modal.show();
 });
 
 // Delete function
@@ -67,6 +65,7 @@ $("#btn-customer-save").on("click", (e) => {
   const customer_name = $("#customer-name").val();
   const customer_address = $("#customer-address").val();
   const customer_salary = $("#customer-salary").val();
+  const editIndex = $("#edit-index").val();
 
   //validation
   if (!customer_id || !customer_name || !customer_address || !customer_salary) {
@@ -76,8 +75,6 @@ $("#btn-customer-save").on("click", (e) => {
 
   //regex
 
-  //customer_array.length +1 - new id
-
   const customer = new Customer(
     customer_id,
     customer_name,
@@ -85,13 +82,15 @@ $("#btn-customer-save").on("click", (e) => {
     customer_salary
   );
 
-  customerArray.push(customer);
-
-  const editIndex = $("#edit-index").val();
-  if (editIndex === "") {
+  if (editIndex === "" || editIndex === undefined) {
+    // Add new customer
     customerArray.push(customer);
   } else {
+    // Update existing customer
     customerArray[editIndex] = customer;
+    $("#btn-customer-save").text("Save");
+    $("#edit-index").val("");
+    $("#customer-modal-title").text("Add customer");
   }
 
   loadTable();
@@ -101,5 +100,13 @@ $("#btn-customer-save").on("click", (e) => {
   const modal = bootstrap.Modal.getInstance(modalEl);
   modal.hide();
 });
+
+// Ensure #edit-index input exists for edit tracking
+if ($("#edit-index").length === 0) {
+  $("<input>", {
+    type: "hidden",
+    id: "edit-index",
+  }).appendTo("body");
+}
 
 loadTable();
