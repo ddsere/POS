@@ -52,35 +52,74 @@
 
     <!-- Customer page -->
     <section id="customer" class="page">
-      <div>
-        <div>
-          <form class="d-flex flex-column gap-2">
-            <input id="customer-id" type="text" placeholder="id" />
-            <input id="customer-name" type="text" placeholder="name" />
-            <input id="customer-address" type="text" placeholder="address" />
-            <input id="customer-salary" type="number" placeholder="salary" />
-            <div>
+      <!-- Customer form modal toggle button -->
+      <button
+        class="btn btn-success mb-3"
+        data-bs-toggle="modal"
+        data-bs-target="#customer-form-modal"
+      >
+        + Add Customer
+      </button>
+
+      <!-- Customer form modal -->
+      <div class="modal" tabindex="-1" id="customer-form-modal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 id="customer-modal-title" class="modal-title">
+                Add customer
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form class="d-flex flex-column gap-2">
+                <input id="edit-index" type="hidden" />
+                <input id="customer-id" type="text" placeholder="id" />
+                <input id="customer-name" type="text" placeholder="name" />
+                <input
+                  id="customer-address"
+                  type="text"
+                  placeholder="address"
+                />
+                <input
+                  id="customer-salary"
+                  type="number"
+                  placeholder="salary"
+                />
+                <div></div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" data-bs-dismiss="modal">
+                Cancel
+              </button>
               <button
                 id="btn-customer-save"
-                class="btn btn-primary w-100"
+                class="btn btn-primary"
                 type="button"
               >
                 Save
               </button>
-              <button></button>
-              <button></button>
-              <button></button>
             </div>
-          </form>
+          </div>
         </div>
+      </div>
+
+      <div class="d-flex justify-content-between gap-5">
         <div class="w-100">
           <table class="table table-bordered table-striped">
-            <thead>
+            <thead class="table-dark">
               <tr>
                 <th>ID</th>
                 <th>Name</th>
                 <th>Address</th>
                 <th>Salary</th>
+                <th style="width: 150px">Action</th>
               </tr>
             </thead>
             <tbody id="customer-table-body"></tbody>
